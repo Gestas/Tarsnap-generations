@@ -134,12 +134,16 @@ echo "Finding backups to be deleted."
 if [ $BK_TYPE = "HOURLY" ] ; then
 	for backup in $archive_list ; do
 		case "$backup" in
-			 "$HOURLY_DELETE_TIME-$BK_TYPE"* ) tarsnap -d -f $backup
-					if [ $? = 0 ] ; then
-              					echo "$backup snapshot deleted."
-     					   else
-           					echo "Unable to delete $backup. Exiting" ; exit $?
-        				fi ;;
+			 "$HOURLY_DELETE_TIME-$BK_TYPE"* ) 	
+					case "$backup" in   #this case added to make sure the script doesn't delete the backup it just took. Case: '-h x' and backup takes > x hours. 
+						*"$NOW"* ) echo "Skipped $backup" ;;
+						* )  tarsnap -d -f $backup
+							if [ $? = 0 ] ; then
+              							echo "$backup snapshot deleted."
+     					   		else
+           							echo "Unable to delete $backup. Exiting" ; exit $?
+        						fi ;;
+					esac ;;
 			* ) ;;
 		esac
  	done
@@ -149,12 +153,16 @@ fi
 if [ $BK_TYPE = "DAILY" ] ; then
         for backup in $archive_list ; do
                 case "$backup" in
-                         "$DAILY_DELETE_TIME-$BK_TYPE"* ) tarsnap -d -f $backup
-                                        if [ $? = 0 ] ; then
-                                                echo "$backup snapshot deleted."
-                                           else
-                                                echo "Unable to delete $backup. Exiting" ; exit $?
-                                        fi ;;
+                         "$DAILY_DELETE_TIME-$BK_TYPE"* )
+					 case "$backup" in
+                                                *"$NOW"* ) echo "Skipped $backup" ;;
+                                                * )  tarsnap -d -f $backup
+                                       			 if [ $? = 0 ] ; then
+                                                		echo "$backup snapshot deleted."
+                                           		else
+                                                		echo "Unable to delete $backup. Exiting" ; exit $?
+                                        		fi ;;
+					 esac ;;
                         * ) ;;
                 esac
         done
@@ -163,12 +171,16 @@ fi
 if [ $BK_TYPE = "WEEKLY" ] ; then
         for backup in $archive_list ; do
                 case "$backup" in
-                         "$WEEKLY_DELETE_TIME-$BK_TYPE"* ) tarsnap -d -f $backup
-                                        if [ $? = 0 ] ; then
-                                                echo "$backup snapshot deleted."
-                                           else
-                                                echo "Unable to delete $backup. Exiting" ; exit $?
-                                        fi ;;
+                         "$WEEKLY_DELETE_TIME-$BK_TYPE"* ) 
+					 case "$backup" in
+                                                *"$NOW"* ) echo "Skipped $backup" ;;
+                                                * ) tarsnap -d -f $backup
+                                        		if [ $? = 0 ] ; then
+                                                		echo "$backup snapshot deleted."
+                                           		else
+                                                		echo "Unable to delete $backup. Exiting" ; exit $?
+                                        		fi ;;
+					esac ;;
                         * ) ;;
                 esac
         done
@@ -177,12 +189,16 @@ fi
 if [ $BK_TYPE = "MONTHLY" ] ; then
         for backup in $archive_list ; do
                 case "$backup" in
-                         "$MONTHLY_DELETE_TIME-$BK_TYPE"* ) tarsnap -d -f $backup
-                                        if [ $? = 0 ] ; then
-                                                echo "$backup snapshot deleted."
-                                           else
-                                                echo "Unable to delete $backup. Exiting" ; exit $?
-                                        fi ;;
+                         "$MONTHLY_DELETE_TIME-$BK_TYPE"* ) 
+					 case "$backup" in
+                                                *"$NOW"* ) echo "Skipped $backup" ;;
+                                                * ) tarsnap -d -f $backup
+                                        		if [ $? = 0 ] ; then
+                                                		echo "$backup snapshot deleted."
+                                           		else
+                                                		echo "Unable to delete $backup. Exiting" ; exit $?
+                                        		fi ;;
+					esac ;;
                         * ) ;;
                 esac
         done
