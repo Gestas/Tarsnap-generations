@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #See README @ http://github.com/Gestas/Tarsnap-generations/blob/master/README
 
@@ -9,6 +9,8 @@ WEEKLY_DOW=5 										#
 DAILY_TIME=23										#
 #Do you want to use UTC time? (1 = Yes) Default = 0, use local time			#
 USE_UTC=0										#
+#Path to GNU date binary (e.g. /bin/date on Linux, /usr/local/bin/gdate on FreeBSD)	#
+DATE_BIN=`which date`									#
 #########################################################################################
 usage ()
 {
@@ -75,17 +77,17 @@ fi
 
 #Set some constants
 #The day of the week (Monday = 1, Sunday = 7)
-DOW=$(date +%u)
+DOW=$($DATE_BIN +%u)
 #The calendar day of the month
-DOM=$(date +%d)
+DOM=$($DATE_BIN +%d)
 #The last day of the current month I wish there was a better way to do this, but this seems to work everywhere. 
 LDOM=$(echo $(cal) | awk '{print $NF}')
 #We need 'NOW' to be a constant so we can test for it later, here we define 'NOW'
-NOW=$(date +%Y%m%d-%H)
-CUR_HOUR=$(date +%H)
+NOW=$($DATE_BIN +%Y%m%d-%H)
+CUR_HOUR=$($DATE_BIN +%H)
 if [ "$USE_UTC" = "1" ] ; then
-	NOW=$(date -u +%Y%m%d-%H)
-	CUR_HOUR=$(date -u +%H)
+	NOW=$($DATE_BIN -u +%Y%m%d-%H)
+	CUR_HOUR=$($DATE_BIN -u +%H)
 fi
 
 #Find the backup type (HOURLY|DAILY|WEEKLY|MONTHY)
@@ -125,10 +127,10 @@ for dir in $(cat $PATHS) ; do
 done
 
 #Delete old backups
-HOURLY_DELETE_TIME=$(date -d"-$HOURLY_CNT hour" +%Y%m%d-%H) 
-DAILY_DELETE_TIME=$(date -d"-$DAILY_CNT day" +%Y%m%d-%H)
-WEEKLY_DELETE_TIME=$(date -d"-$WEEKLY_CNT week" +%Y%m%d-%H)
-MONTHLY_DELETE_TIME=$(date -d"-$MONTHLY_CNT month" +%Y%m%d-%H)
+HOURLY_DELETE_TIME=$($DATE_BIN -d"-$HOURLY_CNT hour" +%Y%m%d-%H) 
+DAILY_DELETE_TIME=$($DATE_BIN -d"-$DAILY_CNT day" +%Y%m%d-%H)
+WEEKLY_DELETE_TIME=$($DATE_BIN -d"-$WEEKLY_CNT week" +%Y%m%d-%H)
+MONTHLY_DELETE_TIME=$($DATE_BIN -d"-$MONTHLY_CNT month" +%Y%m%d-%H)
 
 echo "Finding backups to be deleted."
 if [ $BK_TYPE = "HOURLY" ] ; then
