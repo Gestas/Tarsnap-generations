@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #See README @ http://github.com/Gestas/Tarsnap-generations/blob/master/README
 
