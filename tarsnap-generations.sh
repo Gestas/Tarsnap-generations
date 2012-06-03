@@ -26,6 +26,7 @@ ARGUMENTS:
 	-d   Number of daily backups to retain.
 	-w   Number of weekly backups to retain.
 	-m   Number of monthly backups to retain.
+        -q   Be quiet - only output if something goes wrong
 
 For more information - http://github.com/Gestas/Tarsnap-generations/blob/master/README
 EOF
@@ -36,15 +37,19 @@ declare -i HOURLY_CNT
 declare -i DAILY_CNT
 declare -i WEEKLY_CNT
 declare -i MONTHLY_CNT
+declare -i QUIET
+
+QUIET=0
 
 #Get the command line arguments. Much nicer this way than $1, $2, etc. 
-while getopts ":f:h:d:w:m:" opt ; do
+while getopts ":f:h:d:w:m:q" opt ; do
 	case $opt in
 		f ) PATHS=$OPTARG ;;
 		h ) HOURLY_CNT=$(($OPTARG+1)) ;;
 		d ) DAILY_CNT=$(($OPTARG+1)) ;;
 		w ) WEEKLY_CNT=$(($OPTARG+1)) ;;
 		m ) MONTHLY_CNT=$(($OPTARG+1)) ;;
+	        q ) QUIET=1 ;;
 		\?) echo \n $usage
 			exit 1 ;;
 		 *) echo \n $usage
@@ -105,23 +110,34 @@ else
 fi
 
 #Take the backup with the right name 
-echo "Starting $BK_TYPE backups..."
+if [ $QUIET != "1" ] ; then
+    echo "Starting $BK_TYPE backups..."
+fi
+
 for dir in $(cat $PATHS) ; do
 	tarsnap -c -f $NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) --one-file-system -C / $dir
 	if [ $? = 0 ] ; then
+	    if [ $QUIET != "1" ] ; then
 		echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup done."
+	    fi
 	else
 		echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup error. Exiting" ; exit $?
 	fi
 done	
 
 #Check to make sure the last set of backups are OK.
-echo "Verifying backups, please wait."
+if [ $QUIET != "1" ] ; then
+    echo "Verifying backups, please wait."
+fi
+
 archive_list=$(tarsnap --list-archives)
 
 for dir in $(cat $PATHS) ; do
 	case "$archive_list" in
-		*"$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir)"* ) echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup OK.";;
+		*"$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir)"* )
+		if [ $QUIET != "1" ] ; then
+		    echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup OK.";;
+		fi
 		* ) echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup NOT OK. Check --archive-list."; exit 3 ;; 
 	esac
 done
@@ -132,7 +148,10 @@ DAILY_DELETE_TIME=$($DATE_BIN -d"-$DAILY_CNT day" +%Y%m%d-%H)
 WEEKLY_DELETE_TIME=$($DATE_BIN -d"-$WEEKLY_CNT week" +%Y%m%d-%H)
 MONTHLY_DELETE_TIME=$($DATE_BIN -d"-$MONTHLY_CNT month" +%Y%m%d-%H)
 
-echo "Finding backups to be deleted."
+if [ $QUIET != "1" ] ; then
+    echo "Finding backups to be deleted."
+fi
+
 if [ $BK_TYPE = "HOURLY" ] ; then
 	for backup in $archive_list ; do
 		case "$backup" in
@@ -141,7 +160,9 @@ if [ $BK_TYPE = "HOURLY" ] ; then
 						*"$NOW"* ) echo "Skipped $backup" ;;
 						* )  tarsnap -d -f $backup
 							if [ $? = 0 ] ; then
+							    if [ $QUIET != "1" ] ; then
               							echo "$backup snapshot deleted."
+							    fi
      					   		else
            							echo "Unable to delete $backup. Exiting" ; exit $?
         						fi ;;
@@ -160,7 +181,9 @@ if [ $BK_TYPE = "DAILY" ] ; then
                                                 *"$NOW"* ) echo "Skipped $backup" ;;
                                                 * )  tarsnap -d -f $backup
                                        			 if [ $? = 0 ] ; then
+							     if [ $QUIET != "1" ] ; then 
                                                 		echo "$backup snapshot deleted."
+							     fi
                                            		else
                                                 		echo "Unable to delete $backup. Exiting" ; exit $?
                                         		fi ;;
@@ -178,7 +201,9 @@ if [ $BK_TYPE = "WEEKLY" ] ; then
                                                 *"$NOW"* ) echo "Skipped $backup" ;;
                                                 * ) tarsnap -d -f $backup
                                         		if [ $? = 0 ] ; then
+							    if [ $QUIET != "1" ] ; then
                                                 		echo "$backup snapshot deleted."
+							    fi
                                            		else
                                                 		echo "Unable to delete $backup. Exiting" ; exit $?
                                         		fi ;;
@@ -196,7 +221,9 @@ if [ $BK_TYPE = "MONTHLY" ] ; then
                                                 *"$NOW"* ) echo "Skipped $backup" ;;
                                                 * ) tarsnap -d -f $backup
                                         		if [ $? = 0 ] ; then
+							    if [ $QUIET != "1" ] ; then
                                                 		echo "$backup snapshot deleted."
+							    fi
                                            		else
                                                 		echo "Unable to delete $backup. Exiting" ; exit $?
                                         		fi ;;
@@ -205,4 +232,6 @@ if [ $BK_TYPE = "MONTHLY" ] ; then
                 esac
         done
 fi
-echo "$0 done"
+if [ $QUIET != "1" ] ; then
+    echo "$0 done"
+fi
