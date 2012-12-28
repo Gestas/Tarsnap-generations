@@ -136,8 +136,8 @@ for dir in $(cat $PATHS) ; do
 	case "$archive_list" in
 		*"$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir)"* )
 		if [ $QUIET != "1" ] ; then
-		    echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup OK.";;
-		fi
+		    echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup OK."
+		fi ;;
 		* ) echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup NOT OK. Check --archive-list."; exit 3 ;; 
 	esac
 done
