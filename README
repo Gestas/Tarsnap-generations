@@ -6,7 +6,7 @@ SYNOPSIS
 
 	ARGUMENTS:
 		 ?   Display this help.    
-		-f   Path to a file with a list of folders to be backed up. List should be \n delimited.  
+		-f   Path to a file with a list of folders to be backed up. List should be newline delimited.  
 		-h   Number of hourly backups to retain.
 		-d   Number of daily backups to retain.
 		-w   Number of weekly backups to retain.
@@ -26,12 +26,13 @@ REQUIRES
 
 CRONTAB EXAMPLES 
 	
-	15 * * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 36 -d 30 -w 12 -m 24 << Takes a backup every hour at the :15, keeps 36 hours of hourly backup, 30 days of daily backups, 12 weeks of weekly backups and 2 years of monthly backups.   
+	```15 * * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 36 -d 30 -w 12 -m 24``` << Takes a backup every hour at the :15, keeps 36 hours of hourly backup, 30 days of daily backups, 12 weeks of weekly backups and 2 years of monthly backups.   
 	
-	30 23 * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 1 -d 10 -w 4 -m 2 << No hourly backups, daily backup at 23:30, keep 10 days of daily backups, 4 weeks of weekly backups and 2 months of monthly backups. Note that the hour here (23) must match the hour set by $DAILY_TIME, line 9 of the script. 23 (11PM) is the default.
+	```30 23 * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 1 -d 10 -w 4 -m 2``` << No hourly backups, daily backup at 23:30, keep 10 days of daily backups, 4 weeks of weekly backups and 2 months of monthly backups. Note that the hour here (23) must match the hour set by $DAILY_TIME, line 9 of the script. 23 (11PM) is the default.
 
 ERRORS
 	The script will exit with a non 0 error code if a backup fails or can't be verified. Be sure to pay attention. 
+
 AUTHOR
 	craig@gestas.net
 
