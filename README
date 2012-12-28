@@ -3,14 +3,15 @@ NAME
 
 SYNOPSIS
 	tarsnap-generations
-	
+
 	ARGUMENTS:
-        	 ?   Display this help.
-        	-f   Path to a file with a list of folders to be backed up. List should be \n delimited.
-        	-h   Number of hourly backups to retain.
-        	-d   Number of daily backups to retain.
-        	-w   Number of weekly backups to retain.
-        	-m   Number of monthly backups to retain.
+		 ?   Display this help.    
+		-f   Path to a file with a list of folders to be backed up. List should be \n delimited.  
+		-h   Number of hourly backups to retain.
+		-d   Number of daily backups to retain.
+		-w   Number of weekly backups to retain.
+		-m   Number of monthly backups to retain.
+        	-q   Be quiet - only output if something goes wrong
 
 DESCRIPTION
 
@@ -23,7 +24,7 @@ REQUIRES
 		exclude <path to cache dir>
 		humanize-numbers
 
-CRONTAB EXAMPLE 
+CRONTAB EXAMPLES 
 	
 	15 * * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 36 -d 30 -w 12 -m 24 << Takes a backup every hour at the :15, keeps 36 hours of hourly backup, 30 days of daily backups, 12 weeks of weekly backups and 2 years of monthly backups.   
 	
@@ -35,6 +36,6 @@ AUTHOR
 	craig@gestas.net
 
 WITH THANKS TO
-	http://www.bluebottle.net.au/blog/2009/tarsnap-backups-on-windows-and-linux
 	http://tarsnap.com
+	http://www.bluebottle.net.au/blog/2009/tarsnap-backups-on-windows-and-linux
 	http://en.wikipedia.org/wiki/Grandfather-father-son_backup
