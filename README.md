@@ -2,9 +2,10 @@
 tarsnap-generations  
 
 ####SYNOPSIS
-Cycles Tarsnap backups in a grandfather-father-son scheme
+Cycles [Tarsnap](https://tarsnap.com/ "Tarsnap") backups in a grandfather-father-son scheme.
 
 ####USAGE
+The script is designed to be run via crontab or equivalent.
     tarsnap-generations.sh
 
         ARGUMENTS:
@@ -21,10 +22,10 @@ The script is designed to be run via crontab. It expects five inputs and a .tars
 
 ####REQUIRES
 The script requires a .tarsnaprc or tarsnap.conf that specifies at least these options -
-    keyfile <path to keyfile>
-    cachedir <path to cache dir>
-    exclude <path to cache dir>
-    humanize-numbers
+```keyfile <path to keyfile>
+cachedir <path to cache dir>
+exclude <path to cache dir>
+humanize-numbers```
 
 ####CRONTAB EXAMPLES 	
     15 * * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 36 -d 30 -w 12 -m 24
@@ -40,6 +41,6 @@ The script will exit with a non 0 error code if a backup fails or can't be verif
 craig@gestas.net
 
 ####WITH THANKS TO
-http://tarsnap.com  
+https://tarsnap.com  
 http://www.bluebottle.net.au/blog/2009/tarsnap-backups-on-windows-and-linux  
-http://en.wikipedia.org/wiki/Grandfather-father-son_backup
+https://en.wikipedia.org/wiki/Grandfather-father-son_backup
