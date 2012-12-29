@@ -1,23 +1,23 @@
 ####NAME
-*tarsnap-generations -- Manages Tarsnap backups 
+tarsnap-generations -- Cycles Tarsnap backups in a grandfather-father-son scheme  
 
 ####SYNOPSIS
     tarsnap-generations
 
-    ARGUMENTS:
-         ?   Display this help.    
-        -f   Path to a file with a list of folders to be backed up. List should be newline delimited.  
-        -h   Number of hourly backups to retain.
-        -d   Number of daily backups to retain.
-        -w   Number of weekly backups to retain.
-        -m   Number of monthly backups to retain.
-        -q   Be quiet - only output if something goes wrong
+        ARGUMENTS:
+             ?   Display this help.    
+            -f   Path to a file with a list of folders to be backed up. List should be newline delimited.  
+            -h   Number of hourly backups to retain.
+            -d   Number of daily backups to retain.
+            -w   Number of weekly backups to retain.
+            -m   Number of monthly backups to retain.
+            -q   Be quiet - only output if something goes wrong
 
 ####DESCRIPTION
 The script is designed to be run via crontab. It expects five inputs and a .tarsnaprc file (see below). If you don't want to take hourly backups then use crontab to schedule backup only in the hour specified in the script as the $DAILY_TIME variable, line 9. Set -h to "1". By default the script takes the "DAILY" backup in the 23:00 hour system time. 
 
 ####REQUIRES
-The script requires a .tarsnaprc that specifies at least these options;
+The script requires a .tarsnaprc that specifies at least these options-
     keyfile <path to keyfile>
     cachedir <path to cache dir>
     exclude <path to cache dir>
@@ -26,6 +26,7 @@ The script requires a .tarsnaprc that specifies at least these options;
 ####CRONTAB EXAMPLES 	
     15 * * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 36 -d 30 -w 12 -m 24
 Takes a backup every hour at the :15, keeps 36 hours of hourly backups, 30 days of daily backups, 12 weeks of weekly backups and 2 years of monthly backups.
+    
     30 23 * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 1 -d 10 -w 4 -m 2
 No hourly backups, a daily backup at 23:30, keeps 10 days of daily backups, 4 weeks of weekly backups and 2 months of monthly backups. Note that the hour here (23) must match the hour set by $DAILY_TIME, line 9 of the script. 23 (11PM) is the default.
 
@@ -36,6 +37,6 @@ The script will exit with a non 0 error code if a backup fails or can't be verif
 craig@gestas.net
 
 ####WITH THANKS TO
-*http://tarsnap.com
-*http://www.bluebottle.net.au/blog/2009/tarsnap-backups-on-windows-and-linux
-*http://en.wikipedia.org/wiki/Grandfather-father-son_backup
+http://tarsnap.com
+http://www.bluebottle.net.au/blog/2009/tarsnap-backups-on-windows-and-linux
+http://en.wikipedia.org/wiki/Grandfather-father-son_backup
