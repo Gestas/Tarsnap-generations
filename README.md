@@ -22,10 +22,10 @@ The script is designed to be run via crontab. It expects five inputs and a .tars
 
 ####REQUIRES
 The script requires a .tarsnaprc or tarsnap.conf that specifies at least these options -  
-```keyfile <path to keyfile>```  
-    ```cachedir <path to cache dir>```  
-    ```exclude <path to cache dir>```  
-    ```humanize-numbers```
+```keyfile <path to keyfile>
+cachedir <path to cache dir>
+exclude <path to cache dir>
+humanize-numbers```
 
 ####CRONTAB EXAMPLES 	
     15 * * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 36 -d 30 -w 12 -m 24
