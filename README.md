@@ -6,6 +6,7 @@ Cycles [Tarsnap](https://tarsnap.com/ "Tarsnap") backups in a grandfather-father
 
 ####USAGE
 The script is designed to be run via crontab or equivalent.
+```bash
     tarsnap-generations.sh
 
         ARGUMENTS:
@@ -16,6 +17,7 @@ The script is designed to be run via crontab or equivalent.
             -w   Number of weekly backups to retain.
             -m   Number of monthly backups to retain.
             -q   Be quiet - only output if something goes wrong
+```
 
 ####DESCRIPTION
 The script is designed to be run via crontab. It expects five inputs and a .tarsnaprc file (see below). If you don't want to take hourly backups then use crontab to schedule a backup only in the hour specified in the script as the $DAILY_TIME variable, line 9. Set -h to "1". By default the script takes the "DAILY" backup in the 23:00 hour system time. 
