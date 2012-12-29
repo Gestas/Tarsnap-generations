@@ -6,7 +6,7 @@ Cycles [Tarsnap](https://tarsnap.com/ "Tarsnap") backups in a grandfather-father
 
 ####USAGE
 The script is designed to be run via crontab or equivalent.
-```bash
+```console
     tarsnap-generations.sh
 
         ARGUMENTS:
