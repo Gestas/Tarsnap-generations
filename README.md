@@ -1,8 +1,11 @@
 ####NAME
-tarsnap-generations -- Cycles Tarsnap backups in a grandfather-father-son scheme  
+tarsnap-generations  
 
 ####SYNOPSIS
-    tarsnap-generations
+Cycles Tarsnap backups in a grandfather-father-son scheme
+
+####USAGE
+    tarsnap-generations.sh
 
         ARGUMENTS:
              ?   Display this help.    
@@ -14,10 +17,10 @@ tarsnap-generations -- Cycles Tarsnap backups in a grandfather-father-son scheme
             -q   Be quiet - only output if something goes wrong
 
 ####DESCRIPTION
-The script is designed to be run via crontab. It expects five inputs and a .tarsnaprc file (see below). If you don't want to take hourly backups then use crontab to schedule backup only in the hour specified in the script as the $DAILY_TIME variable, line 9. Set -h to "1". By default the script takes the "DAILY" backup in the 23:00 hour system time. 
+The script is designed to be run via crontab. It expects five inputs and a .tarsnaprc file (see below). If you don't want to take hourly backups then use crontab to schedule a backup only in the hour specified in the script as the $DAILY_TIME variable, line 9. Set -h to "1". By default the script takes the "DAILY" backup in the 23:00 hour system time. 
 
 ####REQUIRES
-The script requires a .tarsnaprc that specifies at least these options-
+The script requires a .tarsnaprc or tarsnap.conf that specifies at least these options -
     keyfile <path to keyfile>
     cachedir <path to cache dir>
     exclude <path to cache dir>
@@ -37,6 +40,6 @@ The script will exit with a non 0 error code if a backup fails or can't be verif
 craig@gestas.net
 
 ####WITH THANKS TO
-http://tarsnap.com
-http://www.bluebottle.net.au/blog/2009/tarsnap-backups-on-windows-and-linux
+http://tarsnap.com  
+http://www.bluebottle.net.au/blog/2009/tarsnap-backups-on-windows-and-linux  
 http://en.wikipedia.org/wiki/Grandfather-father-son_backup
