@@ -22,9 +22,9 @@ The script is designed to be run via crontab. It expects five inputs and a .tars
 
 ####REQUIRES
 The script requires a .tarsnaprc or tarsnap.conf that specifies at least these options -  
-```keyfile <path to keyfile>
-cachedir <path to cache dir>
-exclude <path to cache dir>
+```keyfile <path to keyfile>  
+cachedir <path to cache dir>  
+exclude <path to cache dir>  
 humanize-numbers```
 
 ####CRONTAB EXAMPLES 	
