@@ -109,19 +109,26 @@ else
         fi
 fi
 
+#Determine the hostname of the system
+if [[ `uname -s` != CYGWIN* ]]; then
+    HOSTNAME=`hostname -s`
+else
+    HOSTNAME=`hostname`
+fi
+
 #Take the backup with the right name 
 if [ $QUIET != "1" ] ; then
     echo "Starting $BK_TYPE backups..."
 fi
 
 for dir in $(cat $PATHS) ; do
-	tarsnap -c -f $NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) --one-file-system -C / $dir
+	tarsnap -c -f $NOW-$BK_TYPE-$HOSTNAME-$(echo $dir) --one-file-system -C / $dir
 	if [ $? = 0 ] ; then
 	    if [ $QUIET != "1" ] ; then
-		echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup done."
+		echo "$NOW-$BK_TYPE-$HOSTNAME-$(echo $dir) backup done."
 	    fi
 	else
-		echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup error. Exiting" ; exit $?
+		echo "$NOW-$BK_TYPE-$HOSTNAME-$(echo $dir) backup error. Exiting" ; exit $?
 	fi
 done	
 
@@ -134,11 +141,11 @@ archive_list=$(tarsnap --list-archives)
 
 for dir in $(cat $PATHS) ; do
 	case "$archive_list" in
-		*"$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir)"* )
+		*"$NOW-$BK_TYPE-$HOSTNAME-$(echo $dir)"* )
 		if [ $QUIET != "1" ] ; then
-		    echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup OK."
+		    echo "$NOW-$BK_TYPE-$HOSTNAME-$(echo $dir) backup OK."
 		fi ;;
-		* ) echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup NOT OK. Check --archive-list."; exit 3 ;; 
+		* ) echo "$NOW-$BK_TYPE-$HOSTNAME-$(echo $dir) backup NOT OK. Check --archive-list."; exit 3 ;; 
 	esac
 done
 
