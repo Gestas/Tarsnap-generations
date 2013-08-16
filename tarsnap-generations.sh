@@ -85,8 +85,8 @@ fi
 DOW=$($DATE_BIN +%u)
 #The calendar day of the month
 DOM=$($DATE_BIN +%d)
-#The last day of the current month. I wish there was a better way to do this, but this seems to work everywhere. 
-LDOM=$(echo $(cal) | awk '{print $NF}')
+#The last day of the current month
+LDOM=$(date -d "$(date +%y-%m-01) +1 month -1 day" +%d)
 #We need 'NOW' to be constant during execution, we set it here.
 NOW=$($DATE_BIN +%Y%m%d-%H)
 CUR_HOUR=$($DATE_BIN +%H)
