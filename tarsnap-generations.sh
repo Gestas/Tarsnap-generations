@@ -6,7 +6,7 @@
 #What day of the week do you want to take the weekly snapshot? Default = Friday(5)	#
 WEEKLY_DOW=5 										#
 #What hour of the day to you want to take the daily snapshot? Default = 11PM (23)	#
-DAILY_TIME=20
+DAILY_TIME=23										#
 #Do you want to use UTC time? (1 = Yes) Default = 0, use local time.			#
 USE_UTC=0										#
 #Path to GNU date binary (e.g. /bin/date on Linux, /usr/local/bin/gdate on FreeBSD)	#
@@ -40,10 +40,6 @@ declare -i MONTHLY_CNT
 declare -i QUIET
 
 QUIET=0
-
-# remove space from the field delimiters that are used in the for loops
-# this allows for dir names with spaces
-IFS=$(echo -en "\n\b")
 
 #Get the command line arguments. Much nicer this way than $1, $2, etc. 
 while getopts ":f:h:d:w:m:q" opt ; do
@@ -118,6 +114,11 @@ if [ $QUIET != "1" ] ; then
     echo "Starting $BK_TYPE backups..."
 fi
 
+# remove space from the field delimiters that are used in the for loops
+# this allows to backup directory names with spaces
+OLD_IFS=$IFS
+IFS=$(echo -en "\n\b")
+
 for dir in $(cat $PATHS) ; do
 	tarsnap -c -f $NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) --one-file-system -C / $dir
 	if [ $? = 0 ] ; then
@@ -128,6 +129,7 @@ for dir in $(cat $PATHS) ; do
 		echo "$NOW-$BK_TYPE-$(hostname -s)-$(echo $dir) backup error. Exiting" ; exit $?
 	fi
 done	
+
 
 #Check to make sure the last set of backups are OK.
 if [ $QUIET != "1" ] ; then
@@ -236,6 +238,10 @@ if [ $BK_TYPE = "MONTHLY" ] ; then
                 esac
         done
 fi
+
+# restore old IFS value
+IFS=$OLD_IFS
+
 if [ $QUIET != "1" ] ; then
     echo "$0 done"
 fi
