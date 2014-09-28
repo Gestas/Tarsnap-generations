@@ -11,6 +11,7 @@ DAILY_TIME=10										#
 USE_UTC=0										#
 #Path to GNU date binary (e.g. /bin/date on Linux, /usr/local/bin/gdate on FreeBSD)	#
 DATE_BIN=`which date`									#
+TARSNAP_BIN='/usr/local/bin/tarsnap'                                                    #
 #########################################################################################
 usage ()
 {
@@ -135,6 +136,7 @@ if [ $QUIET != "1" ] ; then
 fi
 
 archive_list=$(tarsnap --list-archives)
+archive_list=$($TARSNAP_BIN --list-archives)
 
 for dir in $(cat $PATHS) ; do
 	case "$archive_list" in
@@ -184,6 +186,7 @@ if [ $BK_TYPE = "DAILY" ] ; then
 					 case "$backup" in
                                                 *"$NOW"* ) echo "Skipped $backup" ;;
                                                 * )  tarsnap -d -f $backup
+                                                * )  $TARSNAP_BIN -d -f $backup
                                        			 if [ $? = 0 ] ; then
 							     if [ $QUIET != "1" ] ; then 
                                                 		echo "$backup snapshot deleted."
@@ -204,6 +207,7 @@ if [ $BK_TYPE = "WEEKLY" ] ; then
 					 case "$backup" in
                                                 *"$NOW"* ) echo "Skipped $backup" ;;
                                                 * ) tarsnap -d -f $backup
+                                                * ) $TARSNAP_BIN -d -f $backup
                                         		if [ $? = 0 ] ; then
 							    if [ $QUIET != "1" ] ; then
                                                 		echo "$backup snapshot deleted."
@@ -224,6 +228,7 @@ if [ $BK_TYPE = "MONTHLY" ] ; then
 					 case "$backup" in
                                                 *"$NOW"* ) echo "Skipped $backup" ;;
                                                 * ) tarsnap -d -f $backup
+                                                * ) $TARSNAP_BIN -d -f $backup
                                         		if [ $? = 0 ] ; then
 							    if [ $QUIET != "1" ] ; then
                                                 		echo "$backup snapshot deleted."
