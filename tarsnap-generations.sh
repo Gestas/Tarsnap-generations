@@ -151,6 +151,7 @@ if [ $QUIET != "1" ] ; then
     echo "Finding backups to be deleted."
 fi
 
+
 if [ $BK_TYPE = "DAILY" ] ; then
         for backup in $archive_list ; do
                 case "$backup" in
