@@ -6,7 +6,7 @@
 #What day of the week do you want to take the weekly snapshot? Default = Friday(5)	#
 WEEKLY_DOW=5 										#
 #What hour of the day to you want to take the daily snapshot? Default = 11PM (23)	#
-DAILY_TIME=23										#
+DAILY_TIME=10										#
 #Do you want to use UTC time? (1 = Yes) Default = 0, use local time.			#
 USE_UTC=0										#
 #Path to GNU date binary (e.g. /bin/date on Linux, /usr/local/bin/gdate on FreeBSD)	#
@@ -85,8 +85,6 @@ fi
 DOW=$($DATE_BIN +%u)
 #The calendar day of the month
 DOM=$($DATE_BIN +%d)
-#The last day of the current month. I wish there was a better way to do this, but this seems to work everywhere. 
-LDOM=$(echo $(cal) | awk '{print $NF}')
 #We need 'NOW' to be constant during execution, we set it here.
 NOW=$($DATE_BIN +%Y%m%d-%H)
 CUR_HOUR=$($DATE_BIN +%H)
@@ -97,7 +95,7 @@ fi
 
 #Find the backup type (HOURLY|DAILY|WEEKLY|MONTHY)
 BK_TYPE=HOURLY	#Default to HOURLY
-if ( [ "$DOM" = "$LDOM" ] && [ "$CUR_HOUR" = "$DAILY_TIME" ] ) ; then
+if ( [ "$DOM" = "1" ] && [ "$CUR_HOUR" = "$DAILY_TIME" ] ) ; then
 	BK_TYPE=MONTHLY
 else
         if ( [ "$DOW" = "$WEEKLY_DOW" ] && [ "$CUR_HOUR" = "$DAILY_TIME" ] ) ; then
