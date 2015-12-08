@@ -43,8 +43,8 @@ Takes a backup every hour at the :15, keeps 36 hours of hourly backups, 30 days 
 No hourly backups, a daily backup at 23:30, keeps 10 days of daily backups, 4 weeks of weekly backups and 2 months of monthly backups. Note that the hour here (23) must match the hour set by $DAILY_TIME, line 9 of the script. 23 (11PM) is the default.
 
 ####ERRORS
-IMPORTANT: the deletion of old backups is broken atm
-Script will fail silently if you supply unsupported arguments
+IMPORTANT: the deletion of old backups is broken atm  
+Script will fail silently if you supply unsupported arguments  
 The script will exit with a non 0 error code if a backup fails or can't be verified. Be sure to pay attention. 
 
 ####TROUBLESHOOTING
