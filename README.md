@@ -1,10 +1,12 @@
-####NAME
-tarsnap-generations  
+## Tarsnap-generations  
 
-####SYNOPSIS
+### - No longer maintained - ###
+This is a simple tool that I expect will do what it does long into the future without requiring any changes. That said you may be better served by one of the other Tarsnap archive management scripts [listed on the Tarsnap site](https://www.tarsnap.com/helper-scripts.html).
+
+### SYNOPSIS
 Cycles [Tarsnap](https://tarsnap.com/ "Tarsnap") backups in a grandfather-father-son scheme.
 
-####USAGE
+#### USAGE
 The script is designed to be run via crontab or equivalent.
 ```gherkin
     tarsnap-generations.sh
@@ -19,11 +21,11 @@ The script is designed to be run via crontab or equivalent.
             -q   Be quiet - limits output unless something goes wrong.
 ```
 
-####DESCRIPTION
+#### DESCRIPTION
 The script is designed to be run via crontab. It expects five inputs and a working Tarsnap configuration file (see below).
 If you don't want to take hourly backups then use cron to schedule a backup only in the hour specified in the script as the $DAILY_TIME variable, line 9. Set -h to "1". By default the script takes the "DAILY" backup in the 23:00 hour system time. 
 
-####REQUIRES
+#### REQUIRES
 The tarsnap-generations requires a .tarsnaprc or tarsnap.conf that specifies at least these options -  
 ```gherkin
     keyfile <path to keyfile>  
@@ -33,7 +35,7 @@ The tarsnap-generations requires a .tarsnaprc or tarsnap.conf that specifies at 
 ```
 See [the Tarsnap documentation](http://www.tarsnap.com/man-tarsnap.conf.5.html "tarsnap.conf") for more details.
 
-####CRONTAB EXAMPLES 	
+#### CRONTAB EXAMPLES 	
 ```gherkin
     15 * * * * tarsnap-generations.sh -f /root/tarsnap.folders -h 36 -d 30 -w 12 -m 24
 ```
@@ -43,10 +45,10 @@ Takes a backup every hour at the :15, keeps 36 hours of hourly backups, 30 days 
 ```
 No hourly backups, a daily backup at 23:30, keeps 10 days of daily backups, 4 weeks of weekly backups and 2 months of monthly backups. Note that the hour here (23) must match the hour set by $DAILY_TIME, line 9 of the script. 23 (11PM) is the default.
 
-####ERRORS
+#### ERRORS
 The script will exit with a non 0 error code if a backup fails or can't be verified. Be sure to pay attention. 
 
-####TROUBLESHOOTING
+#### TROUBLESHOOTING
 Tarsnap needs to be working properly for tarsnap-generations to work. To quickly test if Tarsnap is working -  
 ```gherkin
     $ tarsnap -c -f test-backup-1 /sbin    # This will take a backup of the /sbin directory.
@@ -63,10 +65,10 @@ Be sure to delete the test backup, you are being charged for it!
     $ tarsnap -d -f test-backup-1
 ```
 
-####AUTHOR
+#### AUTHOR
 craig@gestas.net
 
-####WITH THANKS TO
+#### WITH THANKS TO
 https://tarsnap.com  
 http://www.bluebottle.net.au/blog/2009/tarsnap-backups-on-windows-and-linux  
 https://en.wikipedia.org/wiki/Grandfather-father-son_backup
